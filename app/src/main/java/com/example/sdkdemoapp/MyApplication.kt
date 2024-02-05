@@ -27,9 +27,9 @@ class MyApplication : Application() {
         val moEngage = MoEngage.Builder(this, "OXTAVQZDWWAROL2ESF8FWE8G", DataCenter.DATA_CENTER_1)
             .configureLogs(LogConfig(LogLevel.VERBOSE, false))
             //.configureTrackingOptOut(trackingOptOutConfig)
-            .configureFcm(
-                FcmConfig(false)
-            )
+//            .configureFcm(
+//                FcmConfig(false)
+//            )
             .build()
         MoEngage.initialiseDefaultInstance(moEngage)
 //        enableAndroidIdTracking(applicationContext)

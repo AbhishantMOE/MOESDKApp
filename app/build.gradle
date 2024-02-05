@@ -44,7 +44,12 @@ dependencies {
     //GAID
     implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
     // firebase
-    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation(platform("com.google.firebase:firebase-bom:28.2.0"))
+
+    implementation("com.google.firebase:firebase-messaging")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("com.google.firebase:firebase-analytics")
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

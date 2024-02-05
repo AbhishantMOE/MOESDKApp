@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.widget.RemoteViews
 import android.widget.RemoteViews.RemoteView
 import androidx.annotation.RequiresApi
@@ -18,11 +19,15 @@ import okhttp3.internal.notify
 const val channelId = "Notification_channel"
 const val channelName= "com.example.sdkdemoapp"
 
-@SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     // generate the notification
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+        Log.e("token===>",token)
+    }
+
+    //@RequiresApi(Build.VERSION_CODES.O)
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         if(remoteMessage.notification != null){
         generateNotification(
@@ -42,7 +47,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         return remoteView
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    //@RequiresApi(Build.VERSION_CODES.O)
     fun generateNotification(title:String, message:String){
 
         // to redirect to app
@@ -68,9 +73,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE,) as NotificationManager
 
-        val notificationChannel = NotificationChannel(channelId, channelName,NotificationManager.IMPORTANCE_HIGH)
-
-        notificationManager.createNotificationChannel(notificationChannel)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val notificationChannel = NotificationChannel(channelId, channelName,NotificationManager.IMPORTANCE_HIGH)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
 
         notificationManager.notify(0,builder.build())
 
