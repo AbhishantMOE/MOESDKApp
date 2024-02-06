@@ -8,6 +8,7 @@ import com.moengage.core.MoEngage
 import com.moengage.core.analytics.MoEAnalyticsHelper
 import com.moengage.core.config.FcmConfig
 import com.moengage.core.config.LogConfig
+import com.moengage.core.config.NotificationConfig
 import com.moengage.core.config.TrackingOptOutConfig
 import com.moengage.core.enableAdIdTracking
 import com.moengage.core.enableAndroidIdTracking
@@ -26,10 +27,11 @@ class MyApplication : Application() {
         //
         val moEngage = MoEngage.Builder(this, "OXTAVQZDWWAROL2ESF8FWE8G", DataCenter.DATA_CENTER_1)
             .configureLogs(LogConfig(LogLevel.VERBOSE, false))
+            .configureNotificationMetaData(NotificationConfig(R.drawable.zlatan_icon, R.drawable.smalllogo))
             //.configureTrackingOptOut(trackingOptOutConfig)
-//            .configureFcm(
-//                FcmConfig(false)
-//            )
+            .configureFcm(
+                FcmConfig(false)
+            )
             .build()
         MoEngage.initialiseDefaultInstance(moEngage)
 //        enableAndroidIdTracking(applicationContext)
