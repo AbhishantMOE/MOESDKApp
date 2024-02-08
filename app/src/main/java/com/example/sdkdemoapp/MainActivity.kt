@@ -3,6 +3,7 @@ package com.example.sdkdemoapp
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
@@ -10,11 +11,20 @@ import com.moengage.firebase.MoEFireBaseHelper
 import com.moengage.inapp.MoEInAppHelper
 
 
+
+
 class MainActivity : AppCompatActivity() {
     val TAG = MainActivity::class.java.simpleName
+
+    fun onButtonClick(view: View) {
+        Log.d("Button","Button CLicked")
+        // code to execute when the button is clicked
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        MoEInAppHelper.getInstance().addInAppLifeCycleListener(InAppViewListener())
+        MoEInAppHelper.getInstance().setClickActionListener(InAppOnClickListener())
 
         FirebaseMessaging.getInstance().token.addOnSuccessListener { token: String ->
             if (!TextUtils.isEmpty(token)) {
@@ -29,5 +39,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         MoEInAppHelper.getInstance().showInApp(this)
+
+        //MoEInAppHelper.getInstance().showNudge(this)
     }
 }
