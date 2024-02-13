@@ -33,10 +33,47 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     //@RequiresApi(Build.VERSION_CODES.O)
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         if (MoEPushHelper.getInstance().isFromMoEngagePlatform(remoteMessage.data)){
-            MoEFireBaseHelper.getInstance().passPushPayload(applicationContext, remoteMessage.data)
+            //MoEFireBaseHelper.getInstance().passPushPayload(applicationContext, remoteMessage.data)
+            if(MoEPushHelper.getInstance().isSilentPush(remoteMessage.data)){
+                Log.d("Abhi","This is for silent notification hahahahaha")
+                Log.d("Abhi",remoteMessage.data.toString())
+            }
+            else {
+            Log.d("Abhi","Iam not taking anything from the remote msg")
+            makeNotif()
+            }
         }else{
             // your app's business logic to show notification
         }
+    }
+
+
+
+    public fun makeNotif(){
+
+        val intent = Intent(this,MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+
+        val pendingIntent= PendingIntent.getActivity(this, 0, intent,
+            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE)
+        val builder: NotificationCompat.Builder = NotificationCompat
+            .Builder(applicationContext,"general")
+            .setSmallIcon(R.drawable.smalllogo)
+            .setAutoCancel(true)     // removes notification after clicking
+            .setContentIntent(pendingIntent)
+
+        builder.setContent(RemoteViews("com.example.sdkdemoapp",R.layout.notification))
+
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val notificationChannel = NotificationChannel("general","com.example.sdkdemoapp",NotificationManager.IMPORTANCE_HIGH)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+
+        notificationManager.notify(0,builder.build())
+
+
     }
 
 

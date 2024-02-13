@@ -13,6 +13,8 @@ import com.moengage.core.config.TrackingOptOutConfig
 import com.moengage.core.enableAdIdTracking
 import com.moengage.core.enableAndroidIdTracking
 import com.moengage.core.model.AppStatus
+import com.moengage.firebase.MoEFireBaseHelper
+import java.util.Properties
 
 
 class MyApplication : Application() {
@@ -34,6 +36,13 @@ class MyApplication : Application() {
             )
             .build()
         MoEngage.initialiseDefaultInstance(moEngage)
+
+
+        val properties = com.moengage.core.Properties()
+        properties.addAttribute("quantity", 2)
+
+
+        MoEAnalyticsHelper.trackEvent(applicationContext, "Purchase", properties)
 //        enableAndroidIdTracking(applicationContext)
 //        enableAdIdTracking(applicationContext)
 //        MoEAnalyticsHelper.setAppStatus(applicationContext, AppStatus.INSTALL)
